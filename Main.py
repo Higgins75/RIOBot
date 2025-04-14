@@ -24,7 +24,7 @@ async def hello(interaction: discord.Interaction):
     
 @bot.tree.command(name="raidlink")
 async def raiderurl(interaction: discord.Interaction, region : Literal['eu', 'na'], realm: str, charactername: str):
-    RaiderLinkURL = GetRioLink() + region + '/' + realm + '/' + charactername
+    RaiderLinkURL = GetRioLink(region, realm, charactername)
     await interaction.response.send_message(f'Your RIO link is {RaiderLinkURL}')
         
 bot.run(token)
