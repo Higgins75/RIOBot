@@ -3,6 +3,7 @@ from typing import Literal
 from discord.ext import commands
 from Bot_Token import token
 from API_Call import GetRioLink
+from Lists import regions
 
 intents = discord.Intents.all()
 intents.members = True
@@ -23,7 +24,7 @@ async def hello(interaction: discord.Interaction):
     await interaction.response.send_message(f"Hey {interaction.user.mention}!")
     
 @bot.tree.command(name="raidlink")
-async def raiderurl(interaction: discord.Interaction, region : Literal['eu', 'na'], realm: str, charactername: str):
+async def raiderurl(interaction: discord.Interaction, region : Literal[regions], realm: str, charactername: str):
     RaiderLinkURL = GetRioLink(region, realm, charactername)
     await interaction.response.send_message(f'Your RIO link is {RaiderLinkURL}')
         
