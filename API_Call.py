@@ -11,5 +11,4 @@ response = requests.get('https://raider.io/api/v1/characters/profile?region=eu&r
 #print(response.json())
 
 def GetRioLink():
-    print("GetLinkWorking")
     return "https://raider.io/characters/"
