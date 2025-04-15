@@ -6,6 +6,7 @@ from discord.ext import commands
 from Bot_Token import token
 from API_Call import GetRioLink
 from API_Call import GetRIO
+from API_Call import GetBestRuns
 from Lists import regions
 
 intents = discord.Intents.all()
@@ -36,5 +37,9 @@ async def rio(interaction: discord.Interaction, region : Literal[regions], realm
     Rio_Total = GetRIO(region, realm, charactername)
     await interaction.response.send_message(f'The Raider.IO Score of {charactername} is {Rio_Total}')
     
+@bot.tree.command(name='best_runs')
+async def runs(interaction: discord.Interaction, region : Literal[regions], realm: str, charactername: str):
+    lowest_key = GetBestRuns(region, realm, charactername)
+    await interaction.response.send_message(f'The lowest key of {charactername} is {lowest_key}')
         
 bot.run(token)
