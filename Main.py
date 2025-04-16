@@ -40,6 +40,6 @@ async def rio(interaction: discord.Interaction, region : Literal[regions], realm
 @bot.tree.command(name='best_runs')
 async def runs(interaction: discord.Interaction, region : Literal[regions], realm: str, charactername: str):
     lowest_key = GetBestRuns(region, realm, charactername)
-    await interaction.response.send_message(f'The lowest key of {charactername} is {lowest_key}')
+    await interaction.response.send_message(f'The minimum key of {charactername} is {lowest_key}')
         
 bot.run(token)
