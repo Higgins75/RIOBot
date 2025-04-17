@@ -3,6 +3,8 @@ from typing import Literal
 from discord.ext import commands
 from Bot_Token import token
 from SQLite_Funcs import insertProfile
+from SQLite_Funcs import checkUserExists
+from SQLite_Funcs import removeProfile
 from API_Call import GetRioLink
 from API_Call import GetRIO
 from API_Call import GetLowestKey
@@ -24,27 +26,30 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-#test functionality for replying to DMs        
-@bot.event
-async def on_message(message: discord.Message):
-    if message.guild is None and not message.author.bot:
-        print(message.content)
-    await bot.process_commands(message)
 
-#test func
+#Adds a user profile, currently used as a test case.
 @bot.tree.command(name="add_profile")
-async def add_profile(interaction: discord.Interaction):
+async def add_profile(interaction: discord.Interaction, region : Literal[regions], realm: str, charactername: str):
     user = str(interaction.user)
-    insertProfile(user, "GigDH", "eu", "draenor")
+    insertProfile(user, charactername, region, realm)
     await interaction.response.send_message(f"Running SQL")
+    
+@bot.tree.command(name="delete_profile")
+async def delete_profile(interaction: discord.Interaction):
+    user = str(interaction.user)
+    return_string = removeProfile(user)
+    await interaction.response.send_message(f'{return_string}')
 
-#General Test Command, currently replies 'Hey @user'
-@bot.tree.command(name="tests")
-async def test(interaction: discord.Interaction):
-    await interaction.user.send(f"I can DM you now too!")
-    await interaction.response.send_message(f"Hey {interaction.user.mention}!")
+#checks a user has a profile in the SQLite Database    
+@bot.tree.command(name="check_profile")
+async def check_profile(interaction: discord.Interaction):
+    user = str(interaction.user)   
+    if checkUserExists(user) == True:
+        await interaction.response.send_message("Profile found")
+    else:
+        await interaction.response.send_message("Profile not found")
    
- #Test functionality for DMing the user   
+#Test functionality for DMing the user   
 @bot.tree.command(name='dm')
 async def DM(interaction: discord.Interaction):
     await interaction.user.send(f'I can DM you now too {interaction.user}')
