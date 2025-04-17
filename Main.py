@@ -29,11 +29,26 @@ async def on_ready():
     except Exception as e:
         print(e)
 
+#test functionality for replying to DMs        
+@bot.event
+async def on_message(message: discord.Message):
+    if message.guild is None and not message.author.bot:
+        print(message.content)
+    await bot.process_commands(message)
+
 #General Test Command, currently replies 'Hey @user'
 @bot.tree.command(name="tests")
 async def test(interaction: discord.Interaction):
-
+    await interaction.user.send(f"I can DM you now too!")
     await interaction.response.send_message(f"Hey {interaction.user.mention}!")
+   
+ #Test functionality for DMing the user   
+@bot.tree.command(name='dm')
+async def DM(interaction: discord.Interaction):
+    await interaction.user.send(f'I can DM you now too {interaction.user}')
+    await interaction.response.send_message('On it!')
+    
+    
     
 #Command to reply with a users Raider.IO Link - Requires Error catching    
 @bot.tree.command(name="raidlink")
