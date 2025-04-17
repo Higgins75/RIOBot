@@ -15,19 +15,16 @@ def GetRIO(region : str, realm: str, charactername: str):
     scores = info_keys["scores"]
     return (scores['all'])
 
-#In development
-def GetBestRuns(region : str, realm: str, charactername: str):
+#Returns the value of your lowest key
+def GetLowestKey(region : str, realm: str, charactername: str):
     RunsURL = 'https://raider.io/api/v1/characters/profile?region=' + region + '&realm=' + realm + '&name=' + charactername + '&fields=mythic_plus_best_runs'
     runs = requests.get(RunsURL).json()
     
-    dungeon_names = []
-    dungeon_tiers = []
-
-    for x in runs['mythic_plus_best_runs']:
-        dungeon_names.append(x['dungeon'])
-        dungeon_tiers.append(x['mythic_level'])
-
+    dungeon_dict = {}
     
-    lowest_key = (min((dungeon_tiers)))          
-  
+    for x in runs['mythic_plus_best_runs']:
+        dungeon_dict[x['dungeon']] = x['mythic_level']
+
+    lowest_key = min(dungeon_dict.values())
+       
     return lowest_key 
