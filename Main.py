@@ -48,8 +48,6 @@ async def DM(interaction: discord.Interaction):
     await interaction.user.send(f'I can DM you now too {interaction.user}')
     await interaction.response.send_message('On it!')
     
-    
-    
 #Command to reply with a users Raider.IO Link - Requires Error catching    
 @bot.tree.command(name="raidlink")
 async def raidlink(interaction: discord.Interaction, region : Literal[regions], realm: str, charactername: str):
@@ -65,17 +63,8 @@ async def rio(interaction: discord.Interaction, region : Literal[regions], realm
 #Returns the lowest M+ Runs done this season for a user 
 @bot.tree.command(name='lowest_key')
 async def runs(interaction: discord.Interaction, region : Literal[regions], realm: str, charactername: str):
-    
-    #Gets a dict of lowest M+ runs this season from char
-    lowest_key = (GetLowestKey(region, realm, charactername))
-    
-    #Creates a concat string of these keys to return
-    concatstr = ""
-    for item in lowest_key:
-        concatstr += f'{item} : {lowest_key[item]} \n'
-
-    #Returns to user
-    await interaction.response.send_message(f'The Lowest keys of {charactername} are: \n {concatstr}')
+    string_return = (GetLowestKey(region, realm, charactername))
+    await interaction.response.send_message(f'The lowest keys of **{charactername}** are: \n {string_return}')
 
 #runs the bot        
 bot.run(token)

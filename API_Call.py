@@ -33,5 +33,11 @@ def GetLowestKey(region : str, realm: str, charactername: str):
     for key, values in dungeon_dict.items():
         if values == lowest_key:
             lowest_dungeons_dict.update({key: values})
+           
+    #Creates a concat string of these keys to return
+    string_values = []
+    for k, v in lowest_dungeons_dict.items():
+        string_values.append(f"{k}:  {v}")
+    Lowest_key_return = "\n ".join(string_values)
 
-    return lowest_dungeons_dict 
+    return Lowest_key_return
