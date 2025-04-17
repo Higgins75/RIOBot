@@ -6,7 +6,6 @@ def checkUserExists(userID):
     try:
         con = sqlite3.connect("player_data.db")
         cursor = con.cursor()
-        print("Connected to SQLite")
         
         query = "SELECT 1 FROM profiles WHERE userID = ? LIMIT 1"
         cursor.execute(query, (userID,))
@@ -14,9 +13,11 @@ def checkUserExists(userID):
         
         if result:
             print("User Found")
+            con.close()
             return True
         else:
             print("User not Found")
+            con.close()
             return False
             
     except sqlite3.Error as error:
@@ -25,14 +26,29 @@ def checkUserExists(userID):
     finally:
         if con:
             con.close()
-            print("The SQLite connection is closed")
+
+            
+def getUserData(userID):
+    con = sqlite3.connect("player_data.db")
+    cursor = con.cursor()
+    
+    query = "SELECT * FROM profiles WHERE userID = ? LIMIT 1"
+    cursor.execute(query, (userID,))
+    
+    result = cursor.fetchone()
+    con.close()
+    
+    if result:
+        return result 
+    else:
+        return None
+
 
 #adds profile to SQLite Database
 def insertProfile(userID, CharName, Region, Realm):
     try:
         con = sqlite3.connect("player_data.db")
         cursor = con.cursor()
-        print("Connected to SQLite")
 
         sqlite_insert_with_param = """INSERT INTO profiles
                           (userID, CharName, Region, Realm) 
@@ -42,8 +58,9 @@ def insertProfile(userID, CharName, Region, Realm):
         cursor.execute(sqlite_insert_with_param, data_tuple)
         con.commit()
         print("Python Variables inserted successfully into Profiles table")
-
         cursor.close()
+        con.close()
+        return f'User profile created for {CharName}'
 
     except sqlite3.Error as error:
         print("Failed to insert Python variable into sqlite table", error)
@@ -51,7 +68,6 @@ def insertProfile(userID, CharName, Region, Realm):
     finally:
         if con:
             con.close()
-            print("The SQLite connection is closed")
             
 def removeProfile(userID):
     if checkUserExists(userID) == False:
@@ -61,12 +77,14 @@ def removeProfile(userID):
         try:
             con = sqlite3.connect("player_data.db")
             cursor = con.cursor()
-            print("Connected to SQLite")
+
             delete_query = "DELETE FROM profiles WHERE userID = ?"
             cursor.execute(delete_query, (userID,))
             con.commit()
+            
             print(f'User {userID} deleted')
-            return "User Deleted"
+            con.close()
+            return f'Profile for {userID} cleared'
         
           
         except sqlite3.Error as error:
@@ -76,4 +94,3 @@ def removeProfile(userID):
         finally:
             if con:
                 con.close()
-                print("The SQLite connection is closed")
