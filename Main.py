@@ -1,10 +1,8 @@
 import discord
-import sqlite3
-import json
-import requests
 from typing import Literal
 from discord.ext import commands
 from Bot_Token import token
+from SQLite_Funcs import insertProfile
 from API_Call import GetRioLink
 from API_Call import GetRIO
 from API_Call import GetLowestKey
@@ -15,9 +13,6 @@ intents = discord.Intents.all()
 intents.members = True
 intents.message_content = True
 bot = commands.Bot(command_prefix='.',intents=intents)
-
-#calls the SQL Database associated with this file
-con = sqlite3.connect("player_data.db")
 
 #Readys the Bot, prints messages to CLI to allow for Command Debug
 @bot.event
@@ -35,6 +30,13 @@ async def on_message(message: discord.Message):
     if message.guild is None and not message.author.bot:
         print(message.content)
     await bot.process_commands(message)
+
+#test func
+@bot.tree.command(name="add_profile")
+async def add_profile(interaction: discord.Interaction):
+    user = str(interaction.user)
+    insertProfile(user, "GigDH", "eu", "draenor")
+    await interaction.response.send_message(f"Running SQL")
 
 #General Test Command, currently replies 'Hey @user'
 @bot.tree.command(name="tests")
