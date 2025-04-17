@@ -62,11 +62,20 @@ async def rio(interaction: discord.Interaction, region : Literal[regions], realm
     Rio_Total = GetRIO(region, realm, charactername)
     await interaction.response.send_message(f'The Raider.IO Score of {charactername} is {Rio_Total}')
 
-#Command in progress of development.    
+#Returns the lowest M+ Runs done this season for a user 
 @bot.tree.command(name='lowest_key')
 async def runs(interaction: discord.Interaction, region : Literal[regions], realm: str, charactername: str):
-    lowest_key = GetLowestKey(region, realm, charactername)
-    await interaction.response.send_message(f'The minimum key of {charactername} is {lowest_key}')
+    
+    #Gets a dict of lowest M+ runs this season from char
+    lowest_key = (GetLowestKey(region, realm, charactername))
+    
+    #Creates a concat string of these keys to return
+    concatstr = ""
+    for item in lowest_key:
+        concatstr += f'{item} : {lowest_key[item]} \n'
+
+    #Returns to user
+    await interaction.response.send_message(f'The Lowest keys of {charactername} are: \n {concatstr}')
 
 #runs the bot        
 bot.run(token)
