@@ -25,7 +25,7 @@ def GetLowestKey(region : str, realm: str, charactername: str):
     for x in runs['mythic_plus_best_runs']:
         dungeon_dict[x['dungeon']] = x['mythic_level']
 
-    #find lowest M+ Run (even if multiple)
+    #find lowest M+ Run Value (even if multiple)
     lowest_key = min(dungeon_dict.values())
     
     #Create a new dict of only runs at the lowest M+ level
