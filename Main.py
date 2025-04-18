@@ -93,7 +93,12 @@ async def lowest_keys(interaction: discord.Interaction):
         if userdata != None:
             _, charactername, region, realm = userdata   
             string_return = (GetLowestKey(region, realm, charactername))
-            await interaction.response.send_message(f'The lowest keys of **{charactername}** are: \n {string_return}')         
+            await interaction.response.send_message(f'The lowest keys of **{charactername}** are: \n {string_return}')     
+            
+            
+@bot.tree.command(name='resilient_keys')
+async def resilient_keys(interaction: discord.Interaction):
+    await interaction.response.send_message("In development")    
 
 #runs the bot        
 bot.run(token)
