@@ -8,7 +8,8 @@ from discord.ext import commands
 
 #local files
 from dotenv import load_dotenv
-token = os.getenv("token")
+load_dotenv()
+bot_token = os.getenv("token")
 
 import helpers.SQLite_Funcs as db 
 import helpers.API_Funcs as api
@@ -126,4 +127,4 @@ async def resilient_keys(interaction: discord.Interaction):
     await interaction.response.send_message("In development")    
 
 #runs the bot        
-bot.run(token)
+bot.run(bot_token)
