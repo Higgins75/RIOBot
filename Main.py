@@ -35,7 +35,8 @@ async def on_error(ctx, error):
     await ctx.send("Error found, please try again later")
     
 
-'''@bot.tree.command(name='purge')
+'''#Test command for purging channels
+@bot.tree.command(name='purge')
 async def purge(interaction: discord.Interaction, amount: int = 100):
     await interaction.response.defer()
     await interaction.channel.purge(limit =  amount)
@@ -116,7 +117,7 @@ async def lowest_keys(interaction: discord.Interaction):
             string_return = (api.GetLowestKey(region, realm, charactername))
             await interaction.response.send_message(f'The lowest keys of **{charactername}** are: \n {string_return}')     
             
-            
+#to be developed.
 @bot.tree.command(name='resilient_keys')
 async def resilient_keys(interaction: discord.Interaction):
     await interaction.response.send_message("In development")    
