@@ -7,12 +7,12 @@ from discord.ext import commands
 
 #local files
 from Bot_Token import token
-from Lists import regions
 
 import SQLite_Funcs as db 
 import API_Call as api
 
-
+#list of Regions for later use
+regions = Literal["eu", "na", "kr","tw", "cn"]
 
 #Sets up Discord
 intents = discord.Intents.all()
