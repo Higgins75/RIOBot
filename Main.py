@@ -76,7 +76,7 @@ async def rio_score(interaction: discord.Interaction):
         return
     
     userdata = getUserData(user)
-    if not userdata or len(userdata < 4):
+    if not userdata or len(userdata) < 4:
         await interaction.response.send_message("Error: User profile data is incomplete or missing.")
     
     _, charactername, region, realm = userdata

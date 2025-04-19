@@ -19,7 +19,7 @@ def GetRIO(region : str, realm: str, charactername: str):
     
     try:
         info = request.json()
-        scores_str = (info["mythic_plus_scores_by_season"][0]["scores"["all"]])
+        scores_str = (info["mythic_plus_scores_by_season"][0]["scores"]["all"])
         score_float = float(scores_str)
         score_int = math.floor(score_float)
         return score_int
