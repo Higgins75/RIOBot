@@ -26,6 +26,10 @@ async def on_ready():
         print(f"Synced {len(synced)} command(s)")
     except Exception as e:
         print(e)
+        
+@bot.event
+async def on_error(ctx, error):
+    await ctx.send("Error found, please try again later")
 
 
 #Adds a user profile to the database
