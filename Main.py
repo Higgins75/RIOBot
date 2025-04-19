@@ -48,7 +48,8 @@ async def purge(interaction: discord.Interaction, amount: int = 100):
 async def add_profile(interaction: discord.Interaction, region : Literal[regions], realm: str, charactername: str):
     user = str(interaction.user)
     db.insertProfile(user, charactername, region, realm)
-    await interaction.user.send(f"Linked your DiscordID to the profile for {charactername}")
+    RaiderLinkURL = api.GetRioLink(region, realm, charactername)
+    await interaction.user.send(f"Linked your DiscordID to the profile for {RaiderLinkURL}")
     await interaction.response.send_message(f"User Profile added")
     
 

@@ -54,7 +54,6 @@ def insertProfile(userID, CharName, Region, Realm):
             data_tuple = (userID, CharName, Region, Realm)
             cursor.execute(sqlite_insert_with_param, data_tuple)
             con.commit()
-            print("Python Variables inserted successfully into Profiles table")
             return f'User profile created for {CharName}'
 
     except sqlite3.Error as error:
