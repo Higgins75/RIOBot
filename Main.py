@@ -8,8 +8,8 @@ from discord.ext import commands
 #local files
 from Bot_Token import token
 
-import SQLite_Funcs as db 
-import API_Call as api
+import helpers.SQLite_Funcs as db 
+import helpers.API_Funcs as api
 
 #list of Regions for later use
 regions = Literal["eu", "na", "kr","tw", "cn"]
