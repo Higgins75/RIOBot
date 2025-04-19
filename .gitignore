@@ -1,3 +1,13 @@
-Bot_Token.py
-player_data.db
-.env
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore other files and directories that are not needed
+*.pyo
+*.pyd
+*.db
+*.sqlite
+*.log
+*.env
+*.vscode/
+.idea/
