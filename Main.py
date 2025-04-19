@@ -30,14 +30,23 @@ async def on_ready():
 @bot.event
 async def on_error(ctx, error):
     await ctx.send("Error found, please try again later")
+    
 
+'''@bot.tree.command(name='purge')
+async def purge(interaction: discord.Interaction, amount: int = 100):
+    await interaction.response.defer()
+    await interaction.channel.purge(limit =  amount)
+    await interaction.channel.send(f'channel purged')
+'''
 
 #Adds a user profile to the database
 @bot.tree.command(name="add_profile")
 async def add_profile(interaction: discord.Interaction, region : Literal[regions], realm: str, charactername: str):
     user = str(interaction.user)
     insertProfile(user, charactername, region, realm)
-    await interaction.response.send_message(f"Linked your DiscordID to the profile for {charactername}")
+    await interaction.user.send(f"Linked your DiscordID to the profile for {charactername}")
+    await interaction.response.send_message(f"User Profile added")
+    
 
 #Deletes user data from the database
 @bot.tree.command(name="delete_profile")
