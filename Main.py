@@ -78,9 +78,13 @@ async def rio_score(interaction: discord.Interaction):
     if userdata and len(userdata) >= 4:
         _, charactername, region, realm = userdata
         Rio_Total = GetRIO(region, realm, charactername)
-        await interaction.response.send_message(f'The Raider.IO Score of {charactername} is {Rio_Total}')
+        
+        if isinstance(Rio_Total, int):
+            await interaction.response.send_message(f'The Raider.IO Score of {charactername} is {Rio_Total}')
+        else:
+            await interaction.response.send_message(f'An Error occured of type {Rio_Total}')
     else:
-        await interaction.response.send_message("User profile data is incomplete or missing.")
+        await interaction.response.send_message("Error: User profile data is incomplete or missing.")
             
 #Generates the user's lowest M+ Keys this season from Database Character 
 @bot.tree.command(name='lowest_keys')

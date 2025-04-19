@@ -1,5 +1,6 @@
 import json
 import requests
+import math
 
 
 #Gets a user's raider.io link
@@ -10,10 +11,21 @@ def GetRioLink(region : str, realm: str, charactername: str):
 #calls Raider.IO Api and returns the score information from the JSON
 def GetRIO(region : str, realm: str, charactername: str):
     RequestURL = 'https://raider.io/api/v1/characters/profile?region=' + region + '&realm=' + realm + '&name=' + charactername + '&fields=mythic_plus_scores_by_season%3Aseason-tww-2'
-    info = requests.get(RequestURL).json()
-    info_keys = (info["mythic_plus_scores_by_season"][0])
-    scores = info_keys["scores"]
-    return (scores['all'])
+    
+    request = requests.get(RequestURL)
+    
+    if request.status_code != 200:
+        return "An Error occured"
+    
+    try:
+        info = request.json()
+        scores_str = (info["mythic_plus_scores_by_season"][0]["scores"["all"]])
+        score_float = float(scores_str)
+        score_int = math.floor(score_float)
+        return score_int
+    
+    except (KeyError, IndexError, ValueError):
+        return "Unexpected API response"
 
 #Returns the value of your lowest M+ Run
 def GetLowestKey(region : str, realm: str, charactername: str):
