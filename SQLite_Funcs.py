@@ -27,7 +27,7 @@ def checkUserExists(userID):
         if con:
             con.close()
 
-            
+#Returns user database from the Database 
 def getUserData(userID):
     con = sqlite3.connect("player_data.db")
     cursor = con.cursor()
@@ -68,7 +68,8 @@ def insertProfile(userID, CharName, Region, Realm):
     finally:
         if con:
             con.close()
-            
+       
+#removes associated profile from the database     
 def removeProfile(userID):
     if checkUserExists(userID) == False:
         return "User not found"
