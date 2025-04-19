@@ -1,6 +1,7 @@
 # Ignore Python bytecode files
-__pycache__/
-*.pyc
+**/__pycache__/
+*.py[cod]
+*$py.class
 
 # Ignore other files and directories that are not needed
 *.pyo
@@ -11,3 +12,6 @@ __pycache__/
 *.env
 *.vscode/
 .idea/
+
+helpers/__pycache__/SQLite_Funcs.cpython-313.pyc
+helpers/__pycache__/SQLite_Funcs.cpython-313.pyc
