@@ -1,4 +1,5 @@
-#typing library import
+#Python Lib imports
+import os
 from typing import Literal
 
 #discord.py import
@@ -6,7 +7,8 @@ import discord
 from discord.ext import commands
 
 #local files
-from Bot_Token import token
+from dotenv import load_dotenv
+token = os.getenv("token")
 
 import helpers.SQLite_Funcs as db 
 import helpers.API_Funcs as api
