@@ -70,21 +70,22 @@ async def rio_link(interaction: discord.Interaction):
 @bot.tree.command(name='rio_score')
 async def rio_score(interaction: discord.Interaction):
     user = str(interaction.user)
+    
     if not checkUserExists(user):
         await interaction.response.send_message("Profile not found. Please add profile to use this command")
         return
     
     userdata = getUserData(user)
-    if userdata and len(userdata) >= 4:
-        _, charactername, region, realm = userdata
-        Rio_Total = GetRIO(region, realm, charactername)
-        
-        if isinstance(Rio_Total, int):
-            await interaction.response.send_message(f'The Raider.IO Score of {charactername} is {Rio_Total}')
-        else:
-            await interaction.response.send_message(f'An Error occured of type {Rio_Total}')
-    else:
+    if not userdata or len(userdata < 4):
         await interaction.response.send_message("Error: User profile data is incomplete or missing.")
+    
+    _, charactername, region, realm = userdata
+    Rio_Total = GetRIO(region, realm, charactername)
+        
+    if isinstance(Rio_Total, int):
+        await interaction.response.send_message(f'The Raider.IO Score of {charactername} is {Rio_Total}')
+    else:
+        await interaction.response.send_message(f'An Error occured of type {Rio_Total}')
             
 #Generates the user's lowest M+ Keys this season from Database Character 
 @bot.tree.command(name='lowest_keys')
