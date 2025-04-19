@@ -24,7 +24,13 @@ async def load_cogs():
 async def main():
     async with bot:
         await load_cogs()
-        await bot.start(bot_token)
+        try:
+            await bot.start(bot_token)
+        except asyncio.CancelledError:
+            print("Bot shutdown successfully.")
+        except KeyboardInterrupt:
+            print("Bot was manually stopped.")
+            await bot.close()  # Gracefully close the bot connection
 
 @bot.event
 async def on_ready():
@@ -32,9 +38,9 @@ async def on_ready():
     total_slash_commands = len(bot.tree.get_commands())
     total_prefix_commands = len(bot.commands)
 
-    print(f"🤖 Bot is ready as {bot.user}")
-    print(f"🌐 Slash Commands Loaded: {total_slash_commands}")
-    print(f"⌨️ Prefix Commands Loaded: {total_prefix_commands}\n")
+    print(f"Bot is ready as {bot.user}")
+    print(f"Slash Commands Loaded: {total_slash_commands}")
+    print(f"Prefix Commands Loaded: {total_prefix_commands}\n")
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -2,7 +2,6 @@ import os
 import sqlite3  
   
 db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'player_data.db')
-print("Database Path:", db_path)
           
 #checks if a user has an existing process on SQLite Database            
 def checkUserExists(userID):
