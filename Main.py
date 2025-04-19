@@ -1,15 +1,18 @@
-import discord
+#typing library import
 from typing import Literal
+
+#discord.py import
+import discord
 from discord.ext import commands
+
+#local files
 from Bot_Token import token
-from SQLite_Funcs import insertProfile
-from SQLite_Funcs import checkUserExists
-from SQLite_Funcs import removeProfile
-from SQLite_Funcs import getUserData
-from API_Call import GetRioLink
-from API_Call import GetRIO
-from API_Call import GetLowestKey
 from Lists import regions
+
+import SQLite_Funcs as db 
+import API_Call as api
+
+
 
 #Sets up Discord
 intents = discord.Intents.all()
@@ -43,7 +46,7 @@ async def purge(interaction: discord.Interaction, amount: int = 100):
 @bot.tree.command(name="add_profile")
 async def add_profile(interaction: discord.Interaction, region : Literal[regions], realm: str, charactername: str):
     user = str(interaction.user)
-    insertProfile(user, charactername, region, realm)
+    db.insertProfile(user, charactername, region, realm)
     await interaction.user.send(f"Linked your DiscordID to the profile for {charactername}")
     await interaction.response.send_message(f"User Profile added")
     
@@ -52,15 +55,15 @@ async def add_profile(interaction: discord.Interaction, region : Literal[regions
 @bot.tree.command(name="delete_profile")
 async def delete_profile(interaction: discord.Interaction):
     user = str(interaction.user)
-    return_string = removeProfile(user)
+    return_string = db.removeProfile(user)
     await interaction.response.send_message(f'{return_string}')
 
 #checks a user has a profile in the SQLite Database, returns associated character name 
 @bot.tree.command(name="check_profile")
 async def check_profile(interaction: discord.Interaction):
     user = str(interaction.user)   
-    if checkUserExists(user) == True:
-        userdata = getUserData(user)
+    if db.checkUserExists(user) == True:
+        userdata = db.getUserData(user)
         _, charactername, _, _ = userdata
         await interaction.response.send_message(f'Profile found for {charactername}')
     else:
@@ -70,13 +73,13 @@ async def check_profile(interaction: discord.Interaction):
 @bot.tree.command(name='rio_link')
 async def rio_link(interaction: discord.Interaction):
     user = str(interaction.user)
-    if checkUserExists == False:
+    if db.checkUserExists == False:
         await interaction.response.send_message("Profile not found. Please add profile to use this command")
     else: 
-        userdata = getUserData(user)
+        userdata = db.getUserData(user)
         if userdata != None:
             _, charactername, region, realm = userdata
-            RaiderLinkURL = GetRioLink(region, realm, charactername)
+            RaiderLinkURL = api.GetRioLink(region, realm, charactername)
             await interaction.response.send_message(f'Your RIO link is {RaiderLinkURL}')
 
 #Generates the user's Raider.IO Score from Database Character
@@ -84,16 +87,16 @@ async def rio_link(interaction: discord.Interaction):
 async def rio_score(interaction: discord.Interaction):
     user = str(interaction.user)
     
-    if not checkUserExists(user):
+    if not db.checkUserExists(user):
         await interaction.response.send_message("Profile not found. Please add profile to use this command")
         return
     
-    userdata = getUserData(user)
+    userdata = db.getUserData(user)
     if not userdata or len(userdata) < 4:
         await interaction.response.send_message("Error: User profile data is incomplete or missing.")
     
     _, charactername, region, realm = userdata
-    Rio_Total = GetRIO(region, realm, charactername)
+    Rio_Total = api.GetRIO(region, realm, charactername)
         
     if isinstance(Rio_Total, int):
         await interaction.response.send_message(f'The Raider.IO Score of {charactername} is {Rio_Total}')
@@ -104,13 +107,13 @@ async def rio_score(interaction: discord.Interaction):
 @bot.tree.command(name='lowest_keys')
 async def lowest_keys(interaction: discord.Interaction):
     user = str(interaction.user)
-    if checkUserExists == False:
+    if db.checkUserExists == False:
         await interaction.response.send_message("Profile not found. Please add profile to use this command")
     else: 
-        userdata = getUserData(user)
+        userdata = db.getUserData(user)
         if userdata != None:
             _, charactername, region, realm = userdata   
-            string_return = (GetLowestKey(region, realm, charactername))
+            string_return = (api.GetLowestKey(region, realm, charactername))
             await interaction.response.send_message(f'The lowest keys of **{charactername}** are: \n {string_return}')     
             
             
